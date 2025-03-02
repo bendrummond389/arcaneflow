@@ -17,6 +17,8 @@ class BaseTransformation(ABC):
 
         if self.output_schema:
             self.output_schema.validate(transformed)
+            
+        return transformed
 
     @abstractmethod
     def _transform(self, df: pd.DataFrame) -> pd.DataFrame:
