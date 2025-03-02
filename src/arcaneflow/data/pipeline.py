@@ -5,7 +5,7 @@ from sqlalchemy.orm import DeclarativeMeta
 
 from arcaneflow.data.schema import DataFrameSchema
 from arcaneflow.data.data_source import DataSource
-from arcaneflow.data.transformation import TransformationChain
+from arcaneflow.data.chain import TransformationChain
 from arcaneflow.data.transformations.base import DataTransformer, BaseTransformation
 
 class ArcanePipeline:
