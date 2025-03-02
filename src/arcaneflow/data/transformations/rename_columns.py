@@ -1,7 +1,7 @@
 from typing import Dict
 
 import pandas as pd
-from arcaneflow.data.base import BaseTransformation
+from arcaneflow.data.transformations.base import BaseTransformation
 from arcaneflow.data.schema import DataFrameSchema
 
 class RenameColumns(BaseTransformation):

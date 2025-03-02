@@ -1,7 +1,7 @@
 from typing import List, Union
 import pandas as pd
 
-from arcaneflow.data.base import BaseTransformation
+from arcaneflow.data.transformations.base import BaseTransformation
 
 class TransformationChain:
     """Chain multiple transformations together"""
