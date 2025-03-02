@@ -1,16 +1,18 @@
-from typing import Any
+from typing import Any, Optional, Union
 
 from sqlalchemy import Boolean, DateTime, Float, Integer, String
+from sqlalchemy.orm import DeclarativeMeta
+
 from arcaneflow.data.schema import DataFrameSchema
 from arcaneflow.data.data_source import DataSource
 from arcaneflow.data.transformation import TransformationChain
-from sqlalchemy.orm import DeclarativeMeta
+from arcaneflow.data.base import DataTransformer, BaseTransformation
 
 class ArcanePipeline:
     def __init__(
         self,
         data_source: DataSource,
-        transformations: TransformationChain,
+        transformations: Union[TransformationChain, BaseTransformation, DataTransformer],
         schema_model: DeclarativeMeta,
         engine: Any
     ):
@@ -38,7 +40,7 @@ class ArcanePipeline:
         type_map = {
             Integer: 'integer',
             String: 'string',
-            Float: 'float',
+            Float: 'float', 
             DateTime: 'datetime',
             Boolean: 'boolean'
         }
