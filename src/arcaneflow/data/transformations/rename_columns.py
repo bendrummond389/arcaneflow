@@ -4,14 +4,13 @@ import pandas as pd
 from arcaneflow.data.base import BaseTransformation
 from arcaneflow.data.schema import DataFrameSchema
 
-
 class RenameColumns(BaseTransformation):
     """Transformation that renames DataFrame columns"""
     def __init__(self, column_mapping: Dict[str, str]):
         self.column_mapping = column_mapping
-        self.input_schema = None  # No schema requirements for input
-        self._build_output_schema()
-        
+        self.input_schema = None
+        self.output_schema = None
+
     def _transform(self, df: pd.DataFrame) -> pd.DataFrame:
         return df.rename(columns=self.column_mapping)
     
