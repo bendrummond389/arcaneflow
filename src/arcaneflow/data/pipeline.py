@@ -1,9 +1,9 @@
 from typing import Any
 
 from sqlalchemy import Boolean, DateTime, Float, Integer, String
-from arcaneflow.data.data_frame_schema import DataFrameSchema
+from arcaneflow.data.schema import DataFrameSchema
 from arcaneflow.data.data_source import DataSource
-from arcaneflow.data.transformation_chain import TransformationChain
+from arcaneflow.data.transformation import TransformationChain
 from sqlalchemy.orm import DeclarativeMeta
 
 class ArcanePipeline:

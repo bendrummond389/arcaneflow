@@ -16,9 +16,9 @@ class DataSource(BaseModel):
                      f"of type '{self.type}' at '{self.location}'")
         
         if self.type == "csv":
-            self._load_csv()
+            return self._load_csv()
         elif self.type == "excel":
-            self._load_excel()
+            return self._load_excel()
         elif self.type == "json":
             return self._load_json()
         elif self.type == "api":

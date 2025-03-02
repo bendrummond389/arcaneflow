@@ -1,8 +1,6 @@
-from pydantic import BaseModel, create_model
-from typing import Dict, Any, Type, Optional
+from pydantic import BaseModel
+from typing import Dict
 import pandas as pd
-import numpy as np
-
 
 class DataFrameSchema(BaseModel):
     columns: Dict[str, str]
@@ -20,7 +18,6 @@ class DataFrameSchema(BaseModel):
             col: type_mapping.get(str(dtype), 'unknown')
             for col, dtype in df.dtypes.items()
         })
-
 
     def validate(self, df: pd.DataFrame) -> None:
         current_schema = self.from_dataframe(df)

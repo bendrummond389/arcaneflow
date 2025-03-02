@@ -1,28 +1,35 @@
-from abc import ABC, abstractmethod
-from typing import Optional
+from typing import List, Union
 import pandas as pd
 
-from arcaneflow.data.data_frame_schema import DataFrameSchema
-from arcaneflow.data.transformation_chain import TransformationChain
+from arcaneflow.data.base import BaseTransformation
 
-class BaseTransformation(ABC):
-    input_schema: Optional[DataFrameSchema]
-    output_schema: Optional[DataFrameSchema]
+class TransformationChain:
+    """Chain multiple transformations together"""
+    def __init__(self, transformations: List[Union[BaseTransformation, 'TransformationChain']]):
+        self.transformations = transformations
+        self._validate_chain()
 
-    def __call__(self, df: pd.DataFrame) -> pd.DataFrame:
-        if self.input_schema:
-            self.input_schema.validate(df)
-        
-        transformed = self._transform(df)
-
-        if self.output_schema:
-            self.output_schema.validate(transformed)
+    def _validate_chain(self):
+        for i in range(1, len(self.transformations)):
+            prev = self.transformations[i-1]
+            curr = self.transformations[i]
             
-        return transformed
-
-    @abstractmethod
-    def _transform(self, df: pd.DataFrame) -> pd.DataFrame:
-        pass
-
-    def chain(self, next_transformation: 'BaseTransformation') -> 'TransformationChain':
-        return TransformationChain([self, next_transformation])
+            prev_output = getattr(prev, 'output_schema', None)
+            curr_input = getattr(curr, 'input_schema', None)
+            
+            if prev_output and curr_input and prev_output != curr_input:
+                raise ValueError(
+                    f"Schema mismatch between step {i-1} and {i}:\n"
+                    f"Step {i-1} output: {prev_output}\n"
+                    f"Step {i} input: {curr_input}"
+                )
+            
+    def append(self, transformation: Union[BaseTransformation, 'TransformationChain']) -> 'TransformationChain':
+        new_chain = self.transformations + [transformation]
+        return TransformationChain(new_chain)
+    
+    def __call__(self, df: pd.DataFrame) -> pd.DataFrame:
+        result = df.copy()
+        for transformation in self.transformations:
+            result = transformation(result)
+        return result
