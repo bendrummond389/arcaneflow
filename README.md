@@ -11,7 +11,6 @@ ArcaneFlow is a Python framework designed to simplify building robust ETL pipeli
 - **🛆 Built-in Data Source Support** - Supports loading data from CSV, Excel, JSON, and APIs
 - **⚙️ SQLAlchemy Integration** - Provides seamless database operations with automatic type mapping
 - **🧐 Extensible Architecture** - Easily create custom transformations and data sources
-- **🌐 Parallel Execution Support** - Optimized for high-performance ETL processes
 - **✨ Logging & Monitoring** - Integrated logging and error handling for better pipeline debugging
 
 ## Installation
