@@ -81,3 +81,4 @@ coverage.xml
 *.log
 *.sqlite3
 *.pyc
+src/arcaneflow/__pycache__/__init__.cpython-313.pyc
