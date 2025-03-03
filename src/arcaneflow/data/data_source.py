@@ -31,7 +31,7 @@ class DataSource(BaseModel):
     """
 
     name: str
-    type: Literal["csv", "excel", "json", "api"]
+    type: Literal["csv", "excel", "json"]
     location: str  # File path or URL
     options: Dict[str, Any] = Field(default_factory=dict)
 
@@ -44,11 +44,12 @@ class DataSource(BaseModel):
 
         Raises:
             ValueError: If unsupported data source type is specified.
-            NotImplementedError: If API source type is used (not implemented).
         """
-        logging.info(f"Loading data from source '{self.name}' "
-                     f"of type '{self.type}' at '{self.location}'")
-        
+        logging.info(
+            f"Loading data from source '{self.name}' "
+            f"of type '{self.type}' at '{self.location}'"
+        )
+
         # Dispatch to appropriate loader based on source type
         if self.type == "csv":
             return self._load_csv()
@@ -56,8 +57,6 @@ class DataSource(BaseModel):
             return self._load_excel()
         elif self.type == "json":
             return self._load_json()
-        elif self.type == "api":
-            return self._load_api()
         else:
             raise ValueError(f"Unsupported data source type: {self.type}")
 
@@ -65,25 +64,13 @@ class DataSource(BaseModel):
         """Load CSV data using pandas.read_csv with configured options."""
         logging.debug(f"Using CSV options: {self.options}")
         return pd.read_csv(self.location, **self.options)
-    
+
     def _load_excel(self) -> pd.DataFrame:
         """Load Excel data using pandas.read_excel with configured options."""
         logging.debug(f"Using Excel options: {self.options}")
         return pd.read_excel(self.location, **self.options)
-    
+
     def _load_json(self) -> pd.DataFrame:
         """Load JSON data using pandas.read_json with configured options."""
         logging.debug(f"Using JSON options: {self.options}")
         return pd.read_json(self.location, **self.options)
-    
-    def _load_api(self) -> pd.DataFrame:
-        """
-        Placeholder method for API-based data loading.
-
-        Note:
-            Intended for future implementation using requests or similar library.
-
-        Raises:
-            NotImplementedError: Always raises until implemented.
-        """
-        raise NotImplementedError("API loading not yet implemented.")

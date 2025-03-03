@@ -3,6 +3,7 @@ import yaml
 from pathlib import Path
 from src.arcaneflow.core.config import load_config
 
+
 @pytest.fixture
 def temp_config_file(tmp_path):
     """Creates a temporary YAML config file for testing."""
