@@ -23,7 +23,7 @@ class SchemaValidator:
 
     def __init__(self, db_model: DeclarativeMeta):
         self.db_model = db_model
-        self.logger = logging.logger(__name__)
+        self.logger = logging.getLogger(__name__)
 
     def validate(self, data: pd.DataFrame):
         self.logger.info("Validating data against schema")

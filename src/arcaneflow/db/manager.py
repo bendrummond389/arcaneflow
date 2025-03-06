@@ -3,7 +3,7 @@ from typing import Dict, Generator, List, Optional, Type
 
 import pandas as pd
 from arcaneflow.core import load_config
-from sqlalchemy import create_engine
+from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import DeclarativeMeta, Session
 
 
@@ -29,7 +29,7 @@ class DatabaseManager:
         self.config = config_dict if config_dict else load_config(config_path)
         self.engine = self._create_engine()
 
-    def _create_engine(self) -> Type[create_engine]:
+    def _create_engine(self) -> Engine:
         """Creates and configures the SQLAlchemy database engine.
 
         Returns:
@@ -38,12 +38,22 @@ class DatabaseManager:
         Note:
             Uses SQLite in-memory database as default if no configuration provided.
         """
-        db_config = self.config.get("database", {})
+        db_config = self.config.get("arcaneflow", {}).get("database", {})
+        self.logger.debug(f"Database configuration: {db_config}")
+
         connection_string = db_config.get("default_connection", "sqlite:///:memory:")
         pool_size = db_config.get("connection_pool_size", 5)
 
-        self.logger.info(f"Creating database engine with pool size {pool_size}")
-        return create_engine(connection_string, pool_size=pool_size, pool_pre_ping=True)
+        self.logger.info(
+            f"Initializing database engine: {connection_string} "
+            f"(pool size: {pool_size}, pre-ping: True)"
+        )
+        
+        return create_engine(
+            url=connection_string,
+            pool_size=pool_size,
+            pool_pre_ping=True
+        )
 
     def create_tables(self, db_models: List[Type[DeclarativeMeta]]) -> None:
         """Creates database tables for specified ORM models if they don't exist.
