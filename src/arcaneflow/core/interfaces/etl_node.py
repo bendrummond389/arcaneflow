@@ -18,6 +18,3 @@ class ETLNode(ABC):
     def validate(self, context: PipelineContext):
         """Optional validation hook"""
         return True
-
-
-

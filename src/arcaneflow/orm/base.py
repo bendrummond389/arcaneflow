@@ -17,12 +17,13 @@ class SQLAManager:
 
     class managed_session:
         """Context manager for database sessions"""
+
         def __init__(self, manager):
             self.manager = manager
-            
+
         def __enter__(self):
             self.session = self.manager.get_session()
             return self.session
-            
+
         def __exit__(self, exc_type, exc_val, exc_tb):
             self.session.close()
