@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Optional, Dict, Any
 from pydantic import BaseModel
 
-from arcaneflow.core.pipeline.context import PipelineContext
+from arcaneflow.core.interfaces.context import PipelineContext
 
 
 class ETLNode(ABC):

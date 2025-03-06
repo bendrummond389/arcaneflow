@@ -1,7 +1,7 @@
 # src/arcaneflow/core/pipeline/builder.py
 from typing import List, Optional
 from ..interfaces.etl_node import ETLNode
-from .context import PipelineContext
+from ..interfaces.context import PipelineContext
 
 class PipelineBuilder:
     """Constructs linear pipelines with optional branching"""
