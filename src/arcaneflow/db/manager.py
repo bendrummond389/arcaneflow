@@ -16,7 +16,9 @@ class DatabaseManager:
         engine: SQLAlchemy engine instance for database interactions.
     """
 
-    def __init__(self, config_path: Optional[str] = None, config_dict: Optional[Dict] = None):
+    def __init__(
+        self, config_path: Optional[str] = None, config_dict: Optional[Dict] = None
+    ):
         """Initializes the DatabaseManager with configuration.
 
         Args:
@@ -41,11 +43,7 @@ class DatabaseManager:
         pool_size = db_config.get("connection_pool_size", 5)
 
         self.logger.info(f"Creating database engine with pool size {pool_size}")
-        return create_engine(
-            connection_string,
-            pool_size=pool_size,
-            pool_pre_ping=True
-        )
+        return create_engine(connection_string, pool_size=pool_size, pool_pre_ping=True)
 
     def create_tables(self, db_models: List[Type[DeclarativeMeta]]) -> None:
         """Creates database tables for specified ORM models if they don't exist.
@@ -79,7 +77,9 @@ class DatabaseManager:
         self.logger.debug("Converting DataFrame to ORM records")
         return data.to_dict(orient="records")
 
-    def persist_records(self, records: List[Dict], model: Type[DeclarativeMeta], batch_size: int = 1000) -> int:
+    def persist_records(
+        self, records: List[Dict], model: Type[DeclarativeMeta], batch_size: int = 1000
+    ) -> int:
         """Persists records to database using batched insert operations.
 
         Args:
@@ -100,7 +100,9 @@ class DatabaseManager:
         self.logger.info(f"Inserted {inserted_count} records total")
         return inserted_count
 
-    def _process_batch(self, session: Session, batch: List[Dict], model: Type[DeclarativeMeta]) -> int:
+    def _process_batch(
+        self, session: Session, batch: List[Dict], model: Type[DeclarativeMeta]
+    ) -> int:
         """Processes a single batch of records through SQLAlchemy ORM.
 
         Args:
@@ -119,7 +121,9 @@ class DatabaseManager:
         session.commit()
         return batch_size
 
-    def _batch_generator(self, records: List, batch_size: int) -> Generator[List[Dict], None, None]:
+    def _batch_generator(
+        self, records: List, batch_size: int
+    ) -> Generator[List[Dict], None, None]:
         """Generates batches of records from the complete dataset.
 
         Args:
@@ -130,7 +134,7 @@ class DatabaseManager:
             Lists of dictionary records for each batch
         """
         for i in range(0, len(records), batch_size):
-            yield records[i:i + batch_size]
+            yield records[i : i + batch_size]
 
     def get_engine(self) -> Type[create_engine]:
         """Provides access to the SQLAlchemy engine instance.

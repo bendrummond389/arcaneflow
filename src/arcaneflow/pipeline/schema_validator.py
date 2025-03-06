@@ -15,21 +15,21 @@ _TYPE_MAPPING = {
     Boolean: "boolean",
 }
 
+
 class SchemaValidator:
     """
     Validates data against a target schema derived from SQLAlchemy models.
     """
+
     def __init__(self, db_model: DeclarativeMeta):
         self.db_model = db_model
         self.logger = logging.logger(__name__)
-
 
     def validate(self, data: pd.DataFrame):
         self.logger.info("Validating data against schema")
         schema = self._get_target_dataframe_schema()
         schema.validate(data)
         self.logger.info("Data validation successful")
-
 
     def _get_target_dataframe_schema(self) -> DataFrameSchema:
         """Derive DataFrame schema from SQLAlchemy model."""
@@ -39,8 +39,7 @@ class SchemaValidator:
                 for col in self.db_model.__table__.columns
             }
         )
-    
+
     def _map_column_type(self, column_type: Any) -> str:
         """Map SQLAlchemy type to schema type string."""
         return _TYPE_MAPPING.get(type(column_type), "unknown")
-

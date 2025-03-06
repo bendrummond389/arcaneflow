@@ -59,7 +59,6 @@ class ArcanePipeline:
         self.create_tables = create_tables
         self.logger = logging.getLogger(__name__)
 
-
     def run(self, batch_size: int = 1000) -> Dict[str, Any]:
         """
         Execute the pipeline to load, transform, validate, and store data.
@@ -94,7 +93,6 @@ class ArcanePipeline:
             transformed_record_count=len(transformed_data),
             inserted_count=inserted_count,
         )
-
 
     # Data loading and processing
     def _load_raw_data(self) -> pd.DataFrame:
@@ -182,5 +180,3 @@ class ArcanePipeline:
             "transformed_records": kwargs.get("transformed_record_count", 0),
             "inserted_records": kwargs.get("inserted_count", 0),
         }
-
-  
