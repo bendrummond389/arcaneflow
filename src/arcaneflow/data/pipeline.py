@@ -3,10 +3,10 @@ from sqlalchemy import Boolean, DateTime, Float, Integer, String
 from sqlalchemy.orm import DeclarativeMeta, Session
 import pandas as pd
 
-from arcaneflow.data.schema import DataFrameSchema
-from arcaneflow.data.data_source import DataSource
-from arcaneflow.data.chain import TransformationChain
-from arcaneflow.data.transformations.base import DataTransformer, BaseTransformation
+from .schema import DataFrameSchema
+from .data_source import DataSource
+from .chain import TransformationChain
+from .transformations.base import DataTransformer, BaseTransformation
 import logging
 
 _TYPE_MAPPING = {
@@ -152,11 +152,6 @@ class ArcanePipeline:
         self.logger.debug("Converting DataFrame to ORM records")
         return data.to_dict(orient="records")
 
-    def _create_tables(self):
-        """Create the database tables if they don't already exist."""
-        base_class = self.db_model.__base__
-        base_class.metadata.create_all(self.engine, checkfirst=True)
-
     def _create_tables_if_needed(self) -> None:
         """Create database tables if configured to do so."""
         if self.create_tables:
@@ -187,3 +182,5 @@ class ArcanePipeline:
             "transformed_records": kwargs.get("transformed_record_count", 0),
             "inserted_records": kwargs.get("inserted_count", 0),
         }
+
+  

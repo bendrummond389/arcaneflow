@@ -1,7 +1,7 @@
 [project]
 name = "arcaneflow"
 version = "0.1.0"
-description = ""
+description = "Streamlined ETL Pipelines with Chainable Transformations"
 authors = [
     {name = "Ben Drummond",email = "60265150+bendrummond389@users.noreply.github.com"}
 ]
