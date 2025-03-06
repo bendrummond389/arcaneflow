@@ -3,11 +3,9 @@ from .schema import DataFrameSchema
 from .chain import TransformationChain
 from .transformations import RenameColumns
 from .data_source import DataSource
-from .pipeline import ArcanePipeline
 
 __all__ = [
     "BaseTransformation",
-    "ArcanePipeline",
     "DataTransformer",
     "DataSource",
     "DataFrameSchema",

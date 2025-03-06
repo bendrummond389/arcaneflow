@@ -18,15 +18,14 @@ class ArcanePipeline:
     def __init__(
         self,
         data_source: DataSource,
+        db_manager: DatabaseManager,
         transformations: Union[
             TransformationChain, BaseTransformation, DataTransformer
         ],
         db_model: DeclarativeMeta,
-        engine: Any,
-        config_path: str = None,
     ):
         self.data_source = data_source
-        self.db_manager = DatabaseManager(config_path)
+        self.db_manager = db_manager
         self.data_processor = DataProcessor(transformations)
         self.validator = SchemaValidator(db_model)
         self.stats_generator = PipelineStats()
@@ -39,7 +38,9 @@ class ArcanePipeline:
         transformed_data = self.data_processor.transform_data(raw_data)
         self.validator.validate(transformed_data)
         records = self.db_manager.convert_to_orm_records(transformed_data)
-        inserted_count = self.db_manager.persist_records(records, model=self.db_model, batch_size=batch_size)
+        inserted_count = self.db_manager.persist_records(
+            records, model=self.db_model, batch_size=batch_size
+        )
 
         # Generate statistics
         return self.stats_generator.generate_stats(

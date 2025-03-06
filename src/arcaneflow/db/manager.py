@@ -48,11 +48,9 @@ class DatabaseManager:
             f"Initializing database engine: {connection_string} "
             f"(pool size: {pool_size}, pre-ping: True)"
         )
-        
+
         return create_engine(
-            url=connection_string,
-            pool_size=pool_size,
-            pool_pre_ping=True
+            url=connection_string, pool_size=pool_size, pool_pre_ping=True
         )
 
     def create_tables(self, db_models: List[Type[DeclarativeMeta]]) -> None:
