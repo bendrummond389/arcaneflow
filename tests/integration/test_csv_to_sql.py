@@ -57,6 +57,3 @@ def test_full_pipeline(test_db, tmp_path):
         inserted_rows = session.query(TestModel).count()
         assert inserted_rows == 3, "Should insert 3 rows from CSV"
         assert result.metadata["processed_rows"] == 3, "Should process 3 rows"
-
-
-

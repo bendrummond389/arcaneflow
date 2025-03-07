@@ -22,4 +22,6 @@ class ETLNode(ABC):
 
     def get_transformation_signature(self) -> TransformationSignature:
         """Return a signature describing the transformation effect."""
-        raise NotImplementedError("Subclasses must implement get_transformation_signature")
+        raise NotImplementedError(
+            "Subclasses must implement get_transformation_signature"
+        )

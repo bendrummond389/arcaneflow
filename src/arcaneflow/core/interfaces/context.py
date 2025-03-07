@@ -8,16 +8,22 @@ from contextlib import contextmanager
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+
 class PipelineContext(BaseModel):
     data: Optional[Any] = None
     metadata: Optional[Dict[str, Any]] = {}
-    _session: Optional[Any] = None 
+    _session: Optional[Any] = None
 
     @property
     def session(self) -> Session:
-        logger.debug("Session property accessed, _session is %s", "available" if self._session else "None")
+        logger.debug(
+            "Session property accessed, _session is %s",
+            "available" if self._session else "None",
+        )
         if self._session is None:
-            logger.error("No active database session when trying to access session property")
+            logger.error(
+                "No active database session when trying to access session property"
+            )
             raise ValueError("No active database session")
         return self._session
 
@@ -34,4 +40,4 @@ class PipelineContext(BaseModel):
             raise
         finally:
             logger.debug("Clearing session reference in context")
-            self._session = None  
+            self._session = None
