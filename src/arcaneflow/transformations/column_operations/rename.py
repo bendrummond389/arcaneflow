@@ -1,4 +1,6 @@
 from typing import Dict
+
+from ...core.interfaces.transformation_signature import TransformationSignature
 from ...core.interfaces.etl_node import ETLNode
 from ...core.interfaces.context import PipelineContext
 import pandas as pd
@@ -25,3 +27,14 @@ class ColumnRenamer(ETLNode):
             raise TypeError("Column mapping must be a dictionary")
         if len(self.column_mapping) == 0:
             raise ValueError("Column mapping cannot be empty")
+
+    def get_transformation_signature(self) -> TransformationSignature:
+        input_schema = set(self.column_mapping.keys())
+        output_schema = set(self.column_mapping.values())
+        
+        return TransformationSignature(
+            input_schema=input_schema,
+            output_schema=output_schema,
+            transformation_type="column_rename",
+            properties={"mapping": self.column_mapping}
+        )

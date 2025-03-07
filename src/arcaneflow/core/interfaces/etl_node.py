@@ -2,7 +2,8 @@ from abc import ABC, abstractmethod
 from typing import Optional, Dict, Any
 from pydantic import BaseModel
 
-from arcaneflow.core.interfaces.context import PipelineContext
+from .context import PipelineContext
+from .transformation_signature import TransformationSignature
 
 
 class ETLNode(ABC):
@@ -15,6 +16,10 @@ class ETLNode(ABC):
     def execute(self, context: PipelineContext) -> PipelineContext:
         """Execute node's operation and return modified context"""
 
-    def validate(self, context: PipelineContext):
+    def validate(self, context: PipelineContext) -> bool:
         """Optional validation hook"""
         return True
+
+    def get_transformation_signature(self) -> TransformationSignature:
+        """Return a signature describing the transformation effect."""
+        raise NotImplementedError("Subclasses must implement get_transformation_signature")
