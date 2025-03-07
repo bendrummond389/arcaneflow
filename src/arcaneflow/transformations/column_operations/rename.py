@@ -6,7 +6,7 @@ import pandas as pd
 class ColumnRenamer(ETLNode):
     def __init__(self, column_mapping: Dict[str, str]):
         self.column_mapping = column_mapping
-        self.validate_mapping()
+        self._validate_mapping()
 
     @property
     def node_id(self) -> str:
